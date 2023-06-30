@@ -6,12 +6,13 @@ local UU_M = UU.menu
 
 local LAM = LibAddonMenu2
 
-local tooltipData, ownerData, idData, queuedData = "", "", 0, {}
+local tooltipData, ownerData, idData = "", "", 0
+local queuedData, dataToRemove = {}, {}
 local currentHouses = {{}, {}}
 
-local dataToRemove = {}
-
 local function setDataToQueue()
+	if tooltipData == "" or ownerData == "" or ownerData:find("@") == nil or idData == 0 then d("House info is empty!") return end
+
 	queuedData[#queuedData + 1] = {tooltip = tooltipData, house = {ownerData, idData},}
 	tooltipData, ownerData, idData = "", "", 0
 end
