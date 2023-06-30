@@ -18,10 +18,7 @@ local textures = {
 --- @param guildHallData table SV.guildHallsData.house table
 --- @return nil
 local function tryToPort(guildHallData)
-	if guildHallData[1] == "" or guildHallData[2] == 0 then
-		d("House info is empty!")
-		return
-	end
+	if guildHallData[1] == "" or guildHallData[2] == 0 then return end
 
 	porting.portToHouse(unpack(guildHallData))
 end
@@ -30,15 +27,15 @@ end
 --- @param button object Control created with WindowManager
 --- @param entries table Content of submenu
 --- @return nil
-local function menu(_, button, entries)
+local function menu(button, entries)
 	if button == 1 then
 		ClearMenu()
 
-		AddCustomMenuItem("" .. textures.menu .. "Home", function() RequestJumpToHouse(GetHousingPrimaryHouse()) end)
+		AddCustomMenuItem("" .. textures.menu .. GetString(UU_GH_HOME), function() RequestJumpToHouse(GetHousingPrimaryHouse()) end)
 		AddCustomMenuItem("-", function() end)
-		AddCustomSubMenuItem("" .. textures.menu .. "Guildhalls", entries)
+		AddCustomSubMenuItem("" .. textures.menu .. GetString(UU_GH_GUILDHALLS), entries)
 		AddCustomMenuItem("-", function() end)
-		AddCustomMenuItem("" .. textures.reload .. "ReloadUI", function() ReloadUI() end)
+		AddCustomMenuItem("" .. textures.reload .. GetString(UU_GH_RELOAD), function() ReloadUI() end)
 
 		ShowMenu()
 	end
@@ -49,7 +46,7 @@ end
 --- @param entries table Content of submenu. It will through into menu function
 --- @param isChatMax boolean Flag to check if chat maximized or minimized
 --- @return nil
-local function showChatButton(controls, isChatMax, entries)
+local function showChatButton(controls, entries, isChatMax)
 	controls:SetDimensions(23, 23)
 	if isChatMax then
 		controls:SetAnchor(TOPLEFT, ZO_ChatOptionsSectionLabel, TOPLEFT, 200, 13)
@@ -59,7 +56,7 @@ local function showChatButton(controls, isChatMax, entries)
 	controls:SetNormalTexture(textures.homeUp)
     controls:SetPressedTexture(textures.homeUp)
     controls:SetMouseOverTexture(textures.homeDown)
-	controls:SetHandler("OnMouseUp", function(_, button) menu(_, button, entries) end)
+	controls:SetHandler("OnMouseUp", function(_, button) menu(button, entries) end)
 end
 
 --- Get data from saved variables
@@ -88,11 +85,10 @@ end
 --- @return nil
 function UU_GH.init(SV)
 	local guildHallsEntries = getData(SV)
-	SLASH_COMMANDS["/aboba"] = function() d(guildHallsEntries) end
 
 	maxChatButton = WM:CreateControl("maxChatButton", ZO_ChatWindow, CT_BUTTON)
-	showChatButton(maxChatButton, true, guildHallsEntries)
+	showChatButton(maxChatButton, guildHallsEntries, true)
 
 	minChatButton = WM:CreateControl("minChatButton", ZO_ChatWindowMinBar, CT_BUTTON)
-    showChatButton(minChatButton, false, guildHallsEntries)
+    showChatButton(minChatButton, guildHallsEntries, false)
 end

@@ -19,7 +19,7 @@ end
 --- Append data to queuedData after that reset tooltipData, ownerData and idData
 --- @return nil
 local function setDataToQueue()
-	if isInputsEmpty() then d("House info is empty!") return end
+	if isInputsEmpty() then return end
 
 	queuedData[#queuedData + 1] = {tooltip = tooltipData, house = {ownerData, idData},}
 	tooltipData, ownerData, idData = "", "", 0
@@ -139,32 +139,32 @@ local function constructOptions(SV, defaults, ids, names)
 
 	local dividerAdd = {
 		type = "header",
-		name = "Add new guildhall",
+		name = GetString(UU_M_GUILDHALL_ADD),
 	}
 
 	local dividerRemove = {
 		type = "header",
-		name = "Remove guildhall",
+		name = GetString(UU_M_GUILDHALL_REMOVE),
 	}
 
 	local guildHallsAdd = {
 		tooltip = {
 			type = "editbox",
-			name = "Name",
+			name = GetString(UU_M_GUILDHALL_NAME),
 			getFunc = function() return tooltipData end,
 			setFunc = function(value) tooltipData = value end,
 			disabled = not SV.modules.guildHalls,
 		},
 		owner = {
 			type = "editbox",
-			name = "Owner",
+			name = GetString(UU_M_GUILDHALL_OWNER),
 			getFunc = function() return ownerData end,
 			setFunc = function(value) ownerData = value end,
 			disabled = not SV.modules.guildHalls,
 		},
 		houseID = {
 			type = "dropdown",
-			name = "House name",
+			name = GetString(UU_M_GUILDHALL_HOUSE),
 			choices = names,
 			choicesValues = ids,
 			scrollable = true,
@@ -174,26 +174,25 @@ local function constructOptions(SV, defaults, ids, names)
 		},
 		queueButton = {
 			type = "button",
-			name = "Queue",
+			name = GetString(UU_M_GUILDHALL_BUTTON_QUEUE),
 			width = "half",
 			func = function() setDataToQueue() end,
-			warning = "To commit changes press Add button.",
 		},
 		addButton = {
 			type = "button",
-			name = "Add",
+			name = GetString(UU_M_GUILDHALL_BUTTON_ADD),
 			width = "half",
 			func = function() pushDataToSV(SV.guildHallsData) end,
-			warning = "It will reload the UI.",
+			warning = GetString(UU_M_GUILDHALL_BUTTON_WARNING),
 		}
 	}
 
 	local guildHallsRemove = {
 		guildHalls = {
     		type = "multiselectdropdown",
-    		name = "Guildhalls",
-    		noSelectionText = "Choose guildhalls",
-    		multiSelectionTextFormatter = "<<1[$d Item/$d Items]>>",
+    		name = GetString(UU_M_GUILDHALL_REMOVE_LIST_NAME),
+    		noSelectionText = GetString(UU_M_GUILDHALL_REMOVE_LIST_NO_SELECTION),
+    		multiSelectionTextFormatter = GetString(UU_M_GUILDHALL_REMOVE_LIST_FORMATTER),
     		multiSelectType = "normal",
     		choices =  currentHouses[2],
     		choicesValues = currentHouses[1],
@@ -202,15 +201,15 @@ local function constructOptions(SV, defaults, ids, names)
 		},
 		button = {
 			type = "button",
-			name = "Remove",
+			name = GetString(UU_M_GUILDHALL_BUTTON_REMOVE),
 			func = function() removeDataFromSV(SV.guildHallsData) end,
-			warning = "It will reload the UI.",
+			warning = GetString(UU_M_GUILDHALL_BUTTON_WARNING),
 		},
 	}
 
 	local defaultColor = {
 		type = "colorpicker",
-		name = "Default Color",
+		name = GetString(UU_M_AOE_DEFAULT_COLOR),
 		getFunc = function()
 			local c = SV.AoE.defaultColor
 			return tonumber("0x" .. c:sub(1, 2)) / 255, tonumber("0x" .. c:sub(3, 4)) / 255, tonumber("0x" .. c:sub(5, 6)) / 255
@@ -225,7 +224,7 @@ local function constructOptions(SV, defaults, ids, names)
 
 	local cycleSpeed = {
 		type = "slider",
-		name = "Cycle Speed",
+		name = GetString(UU_M_AOE_CYCLE_SPEED),
 		min = 10,
 		max = 75,
 		step = 1,
@@ -240,7 +239,7 @@ local function constructOptions(SV, defaults, ids, names)
 
 	local turboMode = {
 		type = "checkbox",
-		name = "Turbo Mode",
+		name = GetString(UU_M_AOE_TURBO),
 		getFunc = function() return SV.AoE.turbo == 2 end,
 		setFunc = function(value)
 			if value then
@@ -255,7 +254,7 @@ local function constructOptions(SV, defaults, ids, names)
 	local options = {
 		{
 			type = "submenu",
-			name = "Modules",
+			name = GetString(UU_M_MODULES),
 			controls = {GuildHalls, Zones, AoE},
 		},
 		{

@@ -1,11 +1,14 @@
 ## Title: UsefulUtils
 ## APIVersion: 101038
 ## Version: 2.0
-## AddOnVerison: 1
+## AddOnVerison: 13
 ## Author: wnkbll
 ## SavedVariables: UsefulUtilsSV
 ## DependsOn: LibAddonMenu-2.0>=30 LibAddonMenuMultiSelectDropdown LibCustomMenu
 ## IsLibrary: False
+
+lang/en.lua
+lang/$(language).lua
 
 main.lua
 menu.lua
