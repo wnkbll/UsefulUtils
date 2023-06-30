@@ -6,6 +6,7 @@ UU.version = "2.0"
 
 local EM = GetEventManager()
 
+--- @type table default settings for saved variables
 local defaults = {
 	modules = {
 		guildHalls = true,
@@ -20,6 +21,8 @@ local defaults = {
 	},
 }
 
+--- Init function
+--- @return nil
 local function init()
 	local SV = ZO_SavedVars:NewAccountWide('UsefulUtilsSV', 1, nil, defaults)
 
@@ -38,6 +41,8 @@ local function init()
 	UU.menu.init(SV, defaults)
 end
 
+--- Function for EVENT_ADD_ON_LOADED callback
+--- @return nil
 function UU.OnAddOnLoaded(_, addonName)
 	if addonName == UU.name then
 		EM:UnregisterForEvent(UU.name, EVENT_ADD_ON_LOADED)

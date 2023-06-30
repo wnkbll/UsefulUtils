@@ -16,6 +16,8 @@ local blue = 0
 
 local turbo = 1
 
+--- Set new color of AOE
+--- @return nil
 local function setColor()
 	if ( red == 255) and (green < 255) and (blue == 0 ) then
 		green = min((green + (5 * turbo)), 255)
@@ -34,6 +36,10 @@ local function setColor()
 	SetSetting(SETTING_TYPE_COMBAT, COMBAT_SETTING_MONSTER_TELLS_ENEMY_COLOR, format("%02x%02x%02x", red, green, blue))
 end
 
+--- Refresh module depends on the state
+--- @param state boolean Current state of the addon. true - on, false - off
+--- @param SV table Saved variables of all addon
+--- @return nil
 function UU_A.setState(state, SV)
 	if state then
 		turbo = SV.turbo
@@ -44,6 +50,9 @@ function UU_A.setState(state, SV)
 	end
 end
 
+--- Init function
+--- @param SV table Saved variables of all addon
+--- @return nil
 function UU_A.init(SV)
 	UU_A.setState(SV.modules.aoe, SV.AoE)
 end

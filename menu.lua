@@ -10,15 +10,26 @@ local tooltipData, ownerData, idData = "", "", 0
 local queuedData, dataToRemove = {}, {}
 local currentHouses = {{}, {}}
 
+--- Check if inputs empty
+--- @return boolean
+local function isInputsEmpty()
+	return tooltipData == "" or ownerData == "" or ownerData:find("@") == nil or idData == 0
+end
+
+--- Append data to queuedData after that reset tooltipData, ownerData and idData
+--- @return nil
 local function setDataToQueue()
-	if tooltipData == "" or ownerData == "" or ownerData:find("@") == nil or idData == 0 then d("House info is empty!") return end
+	if isInputsEmpty() then d("House info is empty!") return end
 
 	queuedData[#queuedData + 1] = {tooltip = tooltipData, house = {ownerData, idData},}
 	tooltipData, ownerData, idData = "", "", 0
 end
 
+--- Append data from queuedData to SV
+--- @param SV table SV.guildHallsData
+--- @return nil
 local function pushDataToSV(SV)
-	if #queuedData == 0 then return end
+	if #queuedData == 0 and isInputsEmpty() then return end
 
 	for _, data in pairs(queuedData) do
 		SV[#SV + 1] = data
@@ -27,6 +38,9 @@ local function pushDataToSV(SV)
 	ReloadUI()
 end
 
+--- Remove data from SV
+--- @param SV table SV.guildHallsData
+--- @return nil
 local function removeDataFromSV(SV)
 	if #dataToRemove == 0 then return end
 
@@ -39,6 +53,8 @@ local function removeDataFromSV(SV)
 	ReloadUI()
 end
 
+--- Format house data and separate house ids and names to 2 tables
+--- @return table
 local function formatHouseData()
 	local houseData = zoning.getHouseData()
 
@@ -53,6 +69,9 @@ local function formatHouseData()
 	return ids, names
 end
 
+--- Collect data from SV to currentHouses
+--- @param SV table SV.guildHallsData
+--- @return nil
 local function collectCurrentHouses(SV)
 	if #SV == 0 then return end
 
@@ -62,6 +81,8 @@ local function collectCurrentHouses(SV)
 	end
 end
 
+--- Init LAM panel control
+--- @return table
 local function constructPanel()
 	local panel = {
 		type = "panel",
@@ -77,6 +98,12 @@ local function constructPanel()
 	return panel
 end
 
+--- Init LAM options control
+--- @param SV table SV
+--- @param defaults table Default states and settings of addon
+--- @param ids table Collection of house ids
+--- @param names table Collection of house names
+--- @return table
 local function constructOptions(SV, defaults, ids, names)
 	local GuildHalls = {
 		type = "checkbox",
@@ -244,6 +271,10 @@ local function constructOptions(SV, defaults, ids, names)
 	return options
 end
 
+--- Init function
+--- @param SV table SV
+--- @param defaults table Default states and settings of addon
+--- @return nil
 function UU_M.init(SV, defaults)
 	local name = UU.name .. 'Menu'
 	local ids, names = formatHouseData()
