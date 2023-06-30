@@ -23,14 +23,14 @@ local function tryToPort(guildHallData)
 		return
 	end
 
-	porting.portToHouse(unpack(guildHallsData))
+	porting.portToHouse(unpack(guildHallData))
 end
 
 --- Init custom menu for MB1 click on chat button
 --- @param button object Control created with WindowManager
 --- @param entries table Content of submenu
 --- @return nil
-local function menu(button, entries)
+local function menu(_, button, entries)
 	if button == 1 then
 		ClearMenu()
 
@@ -49,7 +49,7 @@ end
 --- @param entries table Content of submenu. It will through into menu function
 --- @param isChatMax boolean Flag to check if chat maximized or minimized
 --- @return nil
-local function showChatButton(controls, entries, isChatMax)
+local function showChatButton(controls, isChatMax, entries)
 	controls:SetDimensions(23, 23)
 	if isChatMax then
 		controls:SetAnchor(TOPLEFT, ZO_ChatOptionsSectionLabel, TOPLEFT, 200, 13)
@@ -59,14 +59,14 @@ local function showChatButton(controls, entries, isChatMax)
 	controls:SetNormalTexture(textures.homeUp)
     controls:SetPressedTexture(textures.homeUp)
     controls:SetMouseOverTexture(textures.homeDown)
-	controls:SetHandler("OnMouseUp", function(_, button) menu(button, entries) end)
+	controls:SetHandler("OnMouseUp", function(_, button) menu(_, button, entries) end)
 end
 
 --- Get data from saved variables
 --- @param SV table SV.guildHallsData
 --- @return table
 local function getData(SV)
-	local guildHallsEntries = {label = "" .. textures.menu .. "...", callback = function() return end, }
+	local guildHallsEntries = {{label = "" .. textures.menu .. "...", callback = function() return end, }}
 
 	if #SV ~= 0 then
 		table.remove(guildHallsEntries)
@@ -88,6 +88,7 @@ end
 --- @return nil
 function UU_GH.init(SV)
 	local guildHallsEntries = getData(SV)
+	SLASH_COMMANDS["/aboba"] = function() d(guildHallsEntries) end
 
 	maxChatButton = WM:CreateControl("maxChatButton", ZO_ChatWindow, CT_BUTTON)
 	showChatButton(maxChatButton, true, guildHallsEntries)

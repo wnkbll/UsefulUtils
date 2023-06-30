@@ -31,6 +31,11 @@ end
 local function pushDataToSV(SV)
 	if #queuedData == 0 and isInputsEmpty() then return end
 
+	if not isInputsEmpty() then
+		SV[#SV + 1] = {tooltip = tooltipData, house = {ownerData, idData},}
+		ReloadUI()
+	end
+
 	for _, data in pairs(queuedData) do
 		SV[#SV + 1] = data
 	end
