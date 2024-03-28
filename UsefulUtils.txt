@@ -1,0 +1,22 @@
+## Title: UsefulUtils
+## APIVersion: 101038
+## Version: 2.0
+## AddOnVerison: 13
+## Author: wnkbll
+## SavedVariables: UsefulUtilsSV
+## DependsOn: LibAddonMenu-2.0>=30 LibAddonMenuMultiSelectDropdown LibCustomMenu
+## IsLibrary: False
+
+lang/en.lua
+lang/$(language).lua
+
+main.lua
+menu.lua
+
+modules/GuildHalls.lua
+modules/Zones.lua
+modules/GroupFrame.lua
+modules/Frames.lua
+
+libs/zoning.lua
+libs/porting.lua
