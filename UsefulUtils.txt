@@ -4,7 +4,7 @@
 ## AddOnVerison: 13
 ## Author: wnkbll
 ## SavedVariables: UsefulUtilsSV
-## DependsOn: LibAddonMenu-2.0>=30 LibAddonMenuMultiSelectDropdown LibCustomMenu
+## DependsOn: LibAddonMenu-2.0>=30 LibCustomMenu
 ## IsLibrary: False
 
 lang/en.lua
