@@ -15,6 +15,11 @@ local defaults = {
 		frames = true,
 	},
 	guildHallsData = {},
+	framesData = {
+		compass = true,
+		target = true,
+		ozezan = true,
+	},
 }
 
 --- Init function
@@ -35,7 +40,7 @@ local function init()
 	end
 
 	if SV.modules.frames then
-		UU.Frames.init()
+		UU.Frames.init(SV.framesData)
 	end
 
 	UU.Menu.init(SV, defaults)

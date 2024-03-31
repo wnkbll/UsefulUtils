@@ -12,29 +12,20 @@ local function setTextures()
 
 	local textures = {'/esoui/art/actionbar/abilityframe64_up.dds', '/esoui/art/actionbar/abilityframe64_down.dds'}
 
-	local synergy = ZO_SynergyTopLevel
-	local synergyContainer = synergy:GetNamedChild('Container')
-	local synergyIcon = synergyContainer:GetNamedChild('Icon')
-	local synergyFrame	= synergyIcon:GetNamedChild('Frame')
-
-	synergyFrame:SetHidden(true)
-
-	local synergyEdge = WINDOW_MANAGER:CreateControl('$(parent)Edge', synergyIcon, CT_TEXTURE)
-	synergyEdge:SetDimensions(50, 50)
-	synergyEdge:ClearAnchors()
-	synergyEdge:SetAnchor(TOPLEFT, synergyIcon, TOPLEFT, 0, 0)
-	synergyEdge:SetTexture(FRAME)
-	synergyEdge:SetDrawLayer(2)
-
 	RedirectTexture(textures[1], FRAME)
 	RedirectTexture(textures[2], FRAME_DOWN)
 end
 
---- Remove frames of target and compass
+--- Hide compass frame
 --- @return nil
-local function hideSomeFrames()
-	UNIT_FRAMES:SetFrameHiddenForReason("reticleover", "combatstate", true)
-	COMPASS_FRAME_FRAGMENT:SetHiddenForReason("UsefulUtils", true)
+function Frames.hideCompassFrame(isHidden)
+	COMPASS_FRAME_FRAGMENT:SetHiddenForReason("UsefulUtils", isHidden)
+end
+
+--- Hide target frame
+--- @return nil
+function Frames.hideTargetFrame(isHidden)
+	UNIT_FRAMES:SetFrameHiddenForReason("reticleover", "combatstate", isHidden)
 end
 
 --- Remove Ozezan frame on health bar
@@ -48,9 +39,18 @@ local function hideOzezanFrame()
 end
 
 --- Init function
+--- @param SV table SV.framesData
 --- @return nil
-function Frames.init()
-    setTextures()
-    hideSomeFrames()
-    hideOzezanFrame()
+function Frames.init(SV)
+	if GetDisplayName() == "@wnkbll" then
+		setTextures()
+	end
+
+	Frames.hideCompassFrame(SV.compass)
+
+	Frames.hideTargetFrame(SV.target)
+
+	if SV.ozezan then
+		hideOzezanFrame()
+	end
 end

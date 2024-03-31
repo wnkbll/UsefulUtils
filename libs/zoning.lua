@@ -14,7 +14,7 @@ function zoning.getNodeIndex(locationName)
 	local i = 1
 	while i <= totalNodes do
 		local _, name, _, _, _, _, _, _, _ = GetFastTravelNodeInfo(i)
-		if name:find(locationName) ~= nil then
+		if name:find(locationName) ~= nil and name ~= "" then
 			d(name .. ' --Index: ' .. i)
 		end
 		i = i + 1

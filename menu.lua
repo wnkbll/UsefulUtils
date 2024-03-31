@@ -216,6 +216,34 @@ local function constructOptions(SV, defaults, ids, names)
 		},
 	}
 
+	local framesCheckboxes = {
+		compass = {
+			type = "checkbox",
+			name = "Hide compass frame",
+			getFunc = function() return SV.framesData.compass end,
+			setFunc = function(value) SV.framesData.compass = value UU.Frames.hideCompassFrame(value) end,
+			disabled = function() return not SV.modules.frames end,
+			default = defaults.framesData.compass,
+		},
+		target = {
+			type = "checkbox",
+			name = "Hide target frame",
+			getFunc = function() return SV.framesData.traget end,
+			setFunc = function(value) SV.framesData.traget = value UU.Frames.hideTargetFrame(value) end,
+			disabled = function() return not SV.modules.frames end,
+			default = defaults.framesData.traget,
+		},
+		ozezan = {
+			type = "checkbox",
+			name = "Hide Ozezan frame",
+			getFunc = function() return SV.framesData.ozezan end,
+			setFunc = function(value) SV.framesData.ozezan = value end,
+			disabled = function() return not SV.modules.frames end,
+			default = defaults.framesData.ozezan,
+			requiresReload = true,
+		},
+	}
+
 	local options = {
 		{
 			type = "submenu",
@@ -228,6 +256,13 @@ local function constructOptions(SV, defaults, ids, names)
 			controls = {
 				dividerAdd, guildHallsAdd.tooltip, guildHallsAdd.owner, guildHallsAdd.houseID, guildHallsAdd.queueButton, guildHallsAdd.addButton,
 				dividerRemove, guildHallsRemove.guildHalls, guildHallsRemove.button
+			},
+		},
+		{
+			type = "submenu",
+			name = "Frames",
+			controls = {
+				framesCheckboxes.compass, framesCheckboxes.target, framesCheckboxes.ozezan,
 			},
 		},
 	}
