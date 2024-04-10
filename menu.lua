@@ -228,10 +228,10 @@ local function constructOptions(SV, defaults, ids, names)
 		target = {
 			type = "checkbox",
 			name = "Hide target frame",
-			getFunc = function() return SV.framesData.traget end,
-			setFunc = function(value) SV.framesData.traget = value UU.Frames.hideTargetFrame(value) end,
+			getFunc = function() return SV.framesData.target end,
+			setFunc = function(value) SV.framesData.target = value UU.Frames.hideTargetFrame(value) end,
 			disabled = function() return not SV.modules.frames end,
-			default = defaults.framesData.traget,
+			default = defaults.framesData.target,
 		},
 		ozezan = {
 			type = "checkbox",
